@@ -1,0 +1,73 @@
+.search {
+  text-align: center;
+}
+
+.search__title {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  color: var(--title);
+  margin-bottom: 0.5rem;
+}
+
+.search__description {
+  font-size: 1.125rem;
+  color: var(--text);
+  margin-bottom: 1rem;
+  max-width: 600px;
+}
+
+.search__form {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.search__input-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.search__input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.search__input {
+  width: 100%;
+  padding: 0.7rem 2.7rem;
+  font-size: 1rem;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background-color: var(--white);
+  color: var(--title);
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.search__input:focus {
+  box-shadow: 5px 5px 5px var(--shadow);
+}
+
+.search__input::placeholder {
+  color: var(--shadow);
+}
+
+.search__button {
+  padding: 0.7rem 2rem;
+  font-size: 1rem;
+  color: var(--white);
+  background-color: var(--green);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search__button:hover {
+  background-color: var(--brown);
+  box-shadow: 5px 5px 5px var(--shadow);
+}
