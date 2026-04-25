@@ -21,7 +21,7 @@ export const appConfig = {
       title: "Developed by",
       link: {
         title: "Dzmitry Kaptsiuh",
-        url: "href='https://github.com/Kaptsiuh'",
+        url: "https://github.com/Kaptsiuh",
       },
     },
   },

@@ -1,0 +1,47 @@
+.footer {
+  border-top: 1px solid var(--border);
+}
+
+.footer__container {
+  text-align: center;
+}
+
+.api {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.api__title {
+  color: var(--text);
+  font-size: 0.875rem;
+}
+
+.api__link {
+  font-size: 0.875rem;
+}
+
+.api__link:hover {
+  color: var(--yellow);
+}
+
+.developer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.developer__title {
+  color: var(--text);
+  font-size: 0.875rem;
+}
+
+.developer__link {
+  font-size: 0.875rem;
+}
+
+.developer__link:hover {
+  color: var(--yellow);
+}

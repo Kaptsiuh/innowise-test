@@ -1,29 +1,24 @@
 .header {
-  background-color: var(--white);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 100;
   backdrop-filter: blur(8px);
-  background: var(--background);
 }
 
-.header-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem;
+.header__container {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.logo-title {
+.logo__title {
   font-size: 1.5rem;
   color: var(--title);
   letter-spacing: -0.5px;
 }
 
-.logo-description {
+.logo__description {
   font-size: 0.7rem;
   color: var(--text);
   margin-top: 0.25rem;

@@ -7,21 +7,7 @@ export function createHeader() {
   header.className = "header";
 
   const container = document.createElement("div");
-  container.className = "header-container";
-
-  const logoDiv = document.createElement("div");
-  logoDiv.className = "logo";
-
-  const logoTitle = document.createElement("h1");
-  logoTitle.className = "logo-title";
-  logoTitle.innerHTML = appConfig.header.logo;
-
-  const logoDescription = document.createElement("spun");
-  logoDescription.className = "logo-description";
-  logoDescription.innerHTML = appConfig.header.description;
-
-  logoDiv.appendChild(logoTitle);
-  logoDiv.appendChild(logoDescription);
+  container.className = "header__container container";
 
   const link = document.createElement("a");
   link.className = "logo-link";
@@ -32,8 +18,24 @@ export function createHeader() {
   homeImg.alt = "Home";
 
   link.appendChild(homeImg);
+
+  const logoDiv = document.createElement("div");
+  logoDiv.className = "logo";
+
+  const logoTitle = document.createElement("h1");
+  logoTitle.className = "logo__title";
+  logoTitle.innerHTML = appConfig.header.logo;
+
+  const logoDescription = document.createElement("spun");
+  logoDescription.className = "logo__description";
+  logoDescription.innerHTML = appConfig.header.description;
+
+  logoDiv.appendChild(logoTitle);
+  logoDiv.appendChild(logoDescription);
+
   container.appendChild(link);
   container.appendChild(logoDiv);
+
   header.appendChild(container);
 
   return header;
