@@ -16,7 +16,7 @@ export function createHeader() {
   logoTitle.className = "logo-title";
   logoTitle.innerHTML = appConfig.header.logo;
 
-  const logoDescription = document.createElement("h1");
+  const logoDescription = document.createElement("spun");
   logoDescription.className = "logo-description";
   logoDescription.innerHTML = appConfig.header.description;
 
