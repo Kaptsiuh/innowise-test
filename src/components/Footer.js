@@ -13,38 +13,35 @@ export function createFooter() {
   apiContainer.className = "api";
 
   const apiTitle = document.createElement("h3");
-  apiTitle.innerHTML = appConfig.footer.api.title;
+  apiTitle.append(appConfig.footer.api.title);
   apiTitle.className = "api__title";
 
   const apiLink = document.createElement("a");
-  apiLink.innerHTML = appConfig.footer.api.link.title;
+  apiLink.append(appConfig.footer.api.link.title);
   apiLink.href = appConfig.footer.api.link.url;
-  apiLink.classList = "api__link";
+  apiLink.className = "api__link";
   apiLink.target = "_blank";
 
-  apiContainer.appendChild(apiTitle);
-  apiContainer.appendChild(apiLink);
+  apiContainer.append(apiTitle, apiLink);
 
   const developerContainer = document.createElement("div");
-  developerContainer.classList = "developer";
+  developerContainer.className = "developer";
 
   const developerTitle = document.createElement("h3");
-  developerTitle.innerHTML = appConfig.footer.developer.title;
-  developerTitle.classList = "developer__title";
+  developerTitle.append(appConfig.footer.developer.title);
+  developerTitle.className = "developer__title";
 
   const developerLink = document.createElement("a");
-  developerLink.innerHTML = appConfig.footer.developer.link.title;
+  developerLink.append(appConfig.footer.developer.link.title);
   developerLink.href = appConfig.footer.developer.link.url;
-  developerLink.classList = "developer__link";
+  developerLink.className = "developer__link";
   developerLink.target = "_blank";
 
-  developerContainer.appendChild(developerTitle);
-  developerContainer.appendChild(developerLink);
+  developerContainer.append(developerTitle, developerLink);
 
-  container.appendChild(apiContainer);
-  container.appendChild(developerContainer);
+  container.append(apiContainer, developerContainer);
 
-  footer.appendChild(container);
+  footer.append(container);
 
   return footer;
 }

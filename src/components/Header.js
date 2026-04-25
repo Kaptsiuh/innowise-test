@@ -17,26 +17,24 @@ export function createHeader() {
   homeImg.src = bookIcon;
   homeImg.alt = "Home";
 
-  link.appendChild(homeImg);
+  link.append(homeImg);
 
   const logoDiv = document.createElement("div");
   logoDiv.className = "logo";
 
   const logoTitle = document.createElement("h1");
   logoTitle.className = "logo__title";
-  logoTitle.innerHTML = appConfig.header.logo;
+  logoTitle.append(appConfig.header.logo);
 
   const logoDescription = document.createElement("spun");
   logoDescription.className = "logo__description";
-  logoDescription.innerHTML = appConfig.header.description;
+  logoDescription.append(appConfig.header.description);
 
-  logoDiv.appendChild(logoTitle);
-  logoDiv.appendChild(logoDescription);
+  logoDiv.append(logoTitle, logoDescription);
 
-  container.appendChild(link);
-  container.appendChild(logoDiv);
+  container.append(link, logoDiv);
 
-  header.appendChild(container);
+  header.append(container);
 
   return header;
 }
