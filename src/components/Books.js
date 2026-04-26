@@ -2,7 +2,7 @@ import "../styles/components/Books.css";
 import { getBooks } from "../services/booksApi";
 import { createBookCard } from "./Book";
 
-export async function loadBooks(parentNode) {
+export async function loadBooks(parentNode, searchQuery) {
   if (!parentNode) {
     console.error("parentNode is required for loadBooks");
     return;
@@ -22,7 +22,7 @@ export async function loadBooks(parentNode) {
   booksContainer.append(loader);
 
   try {
-    let books = await getBooks();
+    let books = await getBooks(searchQuery);
 
     if (!Array.isArray(books)) {
       books = [];

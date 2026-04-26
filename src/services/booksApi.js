@@ -1,8 +1,7 @@
-export async function getBooks() {
+export async function getBooks(searchQuery) {
   const params = new URLSearchParams({
-    q: "popular",
+    q: searchQuery || "popular",
     limit: 20,
-    sort: "editions",
   });
 
   try {
@@ -11,6 +10,7 @@ export async function getBooks() {
 
     if (!response.ok) {
       console.error(`http error! status: ${response.status}`);
+      return [];
     }
 
     const data = await response.json();

@@ -1,6 +1,7 @@
 import "../styles/components/Search.css";
 import { appConfig } from "../data/config";
 import searchIcon from "./../assets/images/search.svg";
+import { loadBooks } from "./Books";
 
 export function createSearch() {
   const section = document.createElement("section");
@@ -30,10 +31,20 @@ export function createSearch() {
   input.id = "search-input";
   input.type = "text";
   input.placeholder = appConfig.searchSection.inputPlaceholder;
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      handleSearch(input.value.trim());
+      input.value = "";
+    }
+  });
 
   const button = document.createElement("button");
   button.className = "search__button";
   button.append(appConfig.searchSection.buttonText);
+  button.addEventListener("click", () => {
+    handleSearch(input.value.trim());
+    input.value = "";
+  });
 
   inputWrapper.append(icon, input);
   form.append(inputWrapper, button);
@@ -41,4 +52,12 @@ export function createSearch() {
   section.append(title, description, form);
 
   return section;
+}
+
+async function handleSearch(searchQuery) {
+  const mainElement = document.querySelector(".main");
+
+  if (!mainElement) return;
+
+  await loadBooks(mainElement, searchQuery);
 }
