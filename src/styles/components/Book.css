@@ -1,0 +1,50 @@
+.book-card {
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 5px 5px 5px var(--shadow);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.book-card:hover {
+  box-shadow: 5px 5px 20px var(--shadow);
+}
+
+.book-card__cover {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+}
+
+.book-card__content {
+  padding: 0.5rem;
+}
+
+.book-card__title {
+  font-size: 1rem;
+  color: var(--title);
+}
+
+.book-card__author {
+  font-size: 0.8rem;
+  color: var(--text);
+}
+
+.book-card__year {
+  font-size: 0.8rem;
+  color: var(--text);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.book-card {
+  animation: fadeInUp 0.5s ease-out forwards;
+  opacity: 0;
+}

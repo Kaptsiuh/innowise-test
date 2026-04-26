@@ -1,12 +1,13 @@
+import { loadBooks } from "./Books";
 import { createSearch } from "./Search";
 
 export function createMain() {
   const main = document.createElement("main");
   main.className = "main container";
 
-  const searchSection = createSearch();
+  main.append(createSearch());
 
-  main.append(searchSection);
+  loadBooks(main);
 
   return main;
 }

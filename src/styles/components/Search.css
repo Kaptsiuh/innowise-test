@@ -1,5 +1,7 @@
 .search {
   text-align: center;
+  margin: auto;
+  max-width: 600px;
 }
 
 .search__title {
@@ -13,7 +15,6 @@
   font-size: 1.125rem;
   color: var(--text);
   margin-bottom: 1rem;
-  max-width: 600px;
 }
 
 .search__form {
