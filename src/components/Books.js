@@ -33,6 +33,7 @@ export async function loadBooks(parentNode, searchQuery) {
       authorName: book.author_name.at(0) || "Unknown author",
       firstPublishYear: book.first_publish_year || "Unknown year",
       coverId: book.cover_i,
+      key: book.key,
     }));
 
     booksContainer.innerHTML = "";
