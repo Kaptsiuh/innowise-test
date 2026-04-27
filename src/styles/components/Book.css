@@ -1,4 +1,5 @@
 .book-card {
+  position: relative;
   background: var(--white);
   border-radius: 10px;
   overflow: hidden;
@@ -47,4 +48,26 @@
 .book-card {
   animation: fadeInUp 0.5s ease-out forwards;
   opacity: 0;
+}
+
+.book-card__favorite {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--card);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s ease;
+  border: none;
+  opacity: 0.9;
+}
+
+.book-card__favorite:hover {
+  transform: scale(1.2);
 }

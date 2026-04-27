@@ -1,6 +1,7 @@
 import "../styles/components/Books.css";
 import { getBooks } from "../services/booksApi";
 import { createBookCard } from "./Book";
+import { createFavorites } from "./Favorites";
 
 export async function loadBooks(parentNode, searchQuery) {
   if (!parentNode) {
@@ -36,8 +37,12 @@ export async function loadBooks(parentNode, searchQuery) {
       key: book.key,
     }));
 
+    const booksGridWrapper = document.createElement("div");
+    booksGridWrapper.className = "books-grid-wrapper";
+    booksGridWrapper.append(createBooks(transformedBooks), createFavorites());
+
     booksContainer.innerHTML = "";
-    booksContainer.append(createBooks(transformedBooks));
+    booksContainer.append(booksGridWrapper);
   } catch (error) {
     console.error(`Error loading books: ${error}`);
     booksContainer.innerHTML = "";
