@@ -1,11 +1,9 @@
+import { createElement } from "../utils/domUtils";
 import { loadBooks } from "./Books";
 import { createSearch } from "./Search";
 
 export function createMain() {
-  const main = document.createElement("main");
-  main.className = "main container";
-
-  main.append(createSearch());
+  const main = createElement("main", "main container", createSearch());
 
   loadBooks(main);
 

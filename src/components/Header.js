@@ -1,40 +1,30 @@
 import "../styles/components/Header.css";
 import { appConfig } from "../data/config";
 import bookIcon from "./../assets/images/book.svg";
+import { createElement } from "../utils/domUtils";
 
 export function createHeader() {
-  const header = document.createElement("header");
-  header.className = "header";
+  const link = createLogoLink();
+  const logoDiv = createTitleSection();
 
-  const container = document.createElement("div");
-  container.className = "header__container container";
+  const container = createElement("div", "header__container container", link, logoDiv);
+  const header = createElement("header", "header", container);
+  return header;
+}
 
-  const link = document.createElement("a");
-  link.className = "logo-link";
-  link.href = "/";
-
-  const homeImg = document.createElement("img");
+function createLogoLink() {
+  const homeImg = createElement("img");
   homeImg.src = bookIcon;
   homeImg.alt = "Home";
 
-  link.append(homeImg);
+  const link = createElement("a", "logo-link", homeImg);
+  link.href = "/";
+  return link;
+}
 
-  const logoDiv = document.createElement("div");
-  logoDiv.className = "logo";
-
-  const logoTitle = document.createElement("h1");
-  logoTitle.className = "logo__title";
-  logoTitle.append(appConfig.header.logo);
-
-  const logoDescription = document.createElement("spun");
-  logoDescription.className = "logo__description";
-  logoDescription.append(appConfig.header.description);
-
-  logoDiv.append(logoTitle, logoDescription);
-
-  container.append(link, logoDiv);
-
-  header.append(container);
-
-  return header;
+function createTitleSection() {
+  const logoTitle = createElement("h1", "logo__title", appConfig.header.logo);
+  const logoDescription = createElement("p", "logo__description", appConfig.header.description);
+  const logoDiv = createElement("div", "logo", logoTitle, logoDescription);
+  return logoDiv;
 }

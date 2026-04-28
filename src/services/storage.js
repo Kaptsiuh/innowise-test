@@ -1,4 +1,4 @@
-const STORAGE_KEY = "favoriteBooks";
+import { STORAGE_KEY } from "../utils/constants";
 
 export function loadFavorites() {
   const favorites = localStorage.getItem(STORAGE_KEY);

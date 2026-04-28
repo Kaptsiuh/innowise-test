@@ -2,32 +2,22 @@ import "../styles/components/Search.css";
 import { appConfig } from "../data/config";
 import searchIcon from "./../assets/images/search.svg";
 import { loadBooks } from "./Books";
+import { createElement } from "../utils/domUtils";
 
 export function createSearch() {
-  const section = document.createElement("section");
-  section.className = "search";
+  const title = createElement("h2", "search__title", appConfig.searchSection.title);
+  const description = createElement("p", "search__description", appConfig.searchSection.description);
+  const form = createForm();
+  const section = createElement("section", "search", title, description, form);
+  return section;
+}
 
-  const title = document.createElement("h2");
-  title.className = "search__title";
-  title.append(appConfig.searchSection.title);
-
-  const description = document.createElement("p");
-  description.className = "search__description";
-  description.append(appConfig.searchSection.description);
-
-  const form = document.createElement("div");
-  form.className = "search__form";
-
-  const inputWrapper = document.createElement("div");
-  inputWrapper.className = "search__input-wrapper";
-
-  const icon = document.createElement("img");
+function createForm() {
+  const icon = createElement("img", "search__input-icon");
   icon.src = searchIcon;
   icon.alt = "Search";
-  icon.className = "search__input-icon";
 
-  const input = document.createElement("input");
-  input.className = "search__input";
+  const input = createElement("input", "search__input");
   input.id = "search-input";
   input.type = "text";
   input.placeholder = appConfig.searchSection.inputPlaceholder;
@@ -38,20 +28,16 @@ export function createSearch() {
     }
   });
 
-  const button = document.createElement("button");
-  button.className = "search__button";
-  button.append(appConfig.searchSection.buttonText);
+  const inputWrapper = createElement("div", "search__input-wrapper", icon, input);
+
+  const button = createElement("button", "search__button", appConfig.searchSection.buttonText);
   button.addEventListener("click", () => {
     handleSearch(input.value.trim());
     input.value = "";
   });
 
-  inputWrapper.append(icon, input);
-  form.append(inputWrapper, button);
-
-  section.append(title, description, form);
-
-  return section;
+  const form = createElement("div", "search__form", inputWrapper, button);
+  return form;
 }
 
 async function handleSearch(searchQuery) {

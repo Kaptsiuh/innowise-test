@@ -2,6 +2,9 @@ import "../styles/components/Books.css";
 import { getBooks } from "../services/booksApi";
 import { createBookCard } from "./Book";
 import { createFavorites } from "./Favorites";
+import { createElement, showMessage, showLoader } from "../utils/domUtils";
+import { appConfig } from "../data/config";
+import { transformBook } from "../utils/transformBook";
 
 export async function loadBooks(parentNode, searchQuery) {
   if (!parentNode) {
@@ -12,15 +15,11 @@ export async function loadBooks(parentNode, searchQuery) {
   let booksContainer = parentNode.querySelector(".books");
 
   if (!booksContainer) {
-    booksContainer = document.createElement("div");
-    booksContainer.className = "books";
+    booksContainer = createElement("div", "books");
     parentNode.append(booksContainer);
   }
 
-  const loader = document.createElement("div");
-  loader.className = "loading";
-  booksContainer.innerHTML = "";
-  booksContainer.append(loader);
+  showLoader(booksContainer);
 
   try {
     let books = await getBooks(searchQuery);
@@ -29,42 +28,25 @@ export async function loadBooks(parentNode, searchQuery) {
       books = [];
     }
 
-    const transformedBooks = books.map((book) => ({
-      title: book.title,
-      authorName: book.author_name.at(0) || "Unknown author",
-      firstPublishYear: book.first_publish_year || "Unknown year",
-      coverId: book.cover_i,
-      key: book.key,
-    }));
+    const transformedBooks = books.map(transformBook);
 
-    const booksGridWrapper = document.createElement("div");
-    booksGridWrapper.className = "books-grid-wrapper";
-    booksGridWrapper.append(createBooks(transformedBooks), createFavorites());
+    const newBook = createBooks(transformedBooks);
+    const favorite = createFavorites();
+    const booksGridWrapper = createElement("div", "books-grid-wrapper", newBook, favorite);
 
     booksContainer.innerHTML = "";
     booksContainer.append(booksGridWrapper);
   } catch (error) {
     console.error(`Error loading books: ${error}`);
-    booksContainer.innerHTML = "";
-
-    const errorMessage = document.createElement("div");
-    errorMessage.className = "error-message";
-    errorMessage.append("Failed to load books. Please try again.");
-    booksContainer.append(errorMessage);
+    showMessage(booksContainer, "error-message", appConfig.searchSection.fetchError);
   }
-
-  return booksContainer;
 }
 
 export function createBooks(books) {
-  const container = document.createElement("ul");
-  container.className = "books-container";
+  const container = createElement("ul", "books-container");
 
-  if (!books || books.length === 0) {
-    const noResults = document.createElement("p");
-    noResults.className = "books__no-results";
-    noResults.append("No books found!");
-    container.append(noResults);
+  if (!books.length) {
+    showMessage(container, "books__no-results", appConfig.searchSection.notFound);
     return container;
   }
 

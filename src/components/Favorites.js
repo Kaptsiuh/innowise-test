@@ -1,109 +1,81 @@
 import { appConfig } from "../data/config";
 import { isFavorite, loadFavorites, removeFromFavorites } from "../services/storage";
 import "../styles/components/Favorites.css";
+import { createElement } from "../utils/domUtils";
+import { getBookUrl, getCoverUrl } from "../utils/urlUtils";
 import favoriteIcon from "./../assets/images/heart.svg";
 
 export function createFavorites() {
-  const favoritesContainer = document.createElement("aside");
-  favoritesContainer.className = "favorites";
-
   const titleWrapper = createTitleWrapper();
   const favoritesList = createFavoritesList();
 
-  favoritesContainer.append(titleWrapper, favoritesList);
+  const favoritesContainer = createElement("aside", "favorites", titleWrapper, favoritesList);
   return favoritesContainer;
 }
 
 function createTitleWrapper() {
-  const titleWrapper = document.createElement("div");
-  titleWrapper.className = "favorites__title-wrapper";
-
-  const favoriteImg = document.createElement("img");
-  favoriteImg.className = "favorites__title-img";
+  const favoriteImg = createElement("img", "favorites__title-img");
   favoriteImg.src = favoriteIcon;
   favoriteImg.alt = "Favorite";
 
-  const title = document.createElement("h2");
-  title.className = "favorites__title";
-  title.append(appConfig.favorites.title);
+  const title = createElement("h2", "favorites__title", appConfig.favorites.title);
 
   const booksCount = loadFavorites().length;
+  const description = createElement(
+    "p",
+    "favorites__title-description",
+    `${booksCount} ${appConfig.favorites.description}`,
+  );
 
-  const description = document.createElement("p");
-  description.className = "favorites__title-description";
-  description.append(`${booksCount} ${appConfig.favorites.description}`);
-
-  titleWrapper.append(favoriteImg, title, description);
+  const titleWrapper = createElement("div", "favorites__title-wrapper", favoriteImg, title, description);
   return titleWrapper;
 }
 
 function createFavoritesList() {
-  const favoritesList = document.createElement("ul");
-  favoritesList.className = "favorites__list";
+  const favoritesList = createElement("ul", "favorites__list");
 
   const savedFavorites = loadFavorites();
-
   if (savedFavorites.length === 0) {
-    const emptyMessage = document.createElement("p");
-    emptyMessage.className = "favorites__empty";
-    emptyMessage.append(appConfig.favorites.emptyList);
+    const emptyMessage = createElement("p", "favorites__empty", appConfig.favorites.emptyList);
     favoritesList.append(emptyMessage);
   } else {
     savedFavorites.forEach((book) => {
       favoritesList.append(createFavoriteItem(book, updateFavorites));
     });
   }
-
   return favoritesList;
 }
 
 export function createFavoriteItem(book, updateFavoritesCallback) {
-  const item = document.createElement("li");
-
-  const link = document.createElement("a");
-  link.className = "favorites__item";
-  link.href = `${import.meta.env.VITE_BASE_URL}${book.key}`;
-  link.target = "_blank";
-
   const cover = createCover(book);
   const info = createInfo(book);
   const favoriteBtn = createFavoriteButton(book, updateFavoritesCallback);
 
-  link.append(cover, info, favoriteBtn);
-  item.append(link);
+  const link = createElement("a", "favorites__item", cover, info, favoriteBtn);
+  link.href = getBookUrl(book.key);
+  link.target = "_blank";
 
+  const item = createElement("li", "", link);
   return item;
 }
 
 function createCover(book) {
-  const cover = document.createElement("img");
-  cover.className = "favorites__cover";
-  const coversUrl = import.meta.env.VITE_COVERS_URL || "https://covers.openlibrary.org";
-  cover.src = `${coversUrl}/b/id/${book.coverId}.jpg`;
+  const cover = createElement("img", "favorites__cover");
+  cover.src = getCoverUrl(book.coverId);
   cover.alt = `Cover of ${book.title}`;
   return cover;
 }
 
 function createInfo(book) {
-  const info = document.createElement("div");
-  info.className = "favorites__info";
+  const title = createElement("h3", "favorites__book-title", book.title);
+  const author = createElement("p", "favorites__book-author", book.authorName);
 
-  const title = document.createElement("h3");
-  title.className = "favorites__book-title";
-  title.append(book.title);
-
-  const author = document.createElement("p");
-  author.className = "favorites__book-author";
-  author.append(book.authorName);
-
-  info.append(title, author);
+  const info = createElement("div", "favorites__info", title, author);
   return info;
 }
 
 function createFavoriteButton(book, updateFavoritesCallback) {
-  const favoriteBtn = document.createElement("button");
-  favoriteBtn.className = "favorites__remove";
-  favoriteBtn.append(appConfig.favorites.redHeart);
+  const favoriteBtn = createElement("button", "favorites__remove", appConfig.favorites.redHeart);
 
   favoriteBtn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -116,14 +88,6 @@ function createFavoriteButton(book, updateFavoritesCallback) {
     }
 
     updateBookCardHeart(book.key);
-
-    const favoritesList = document.querySelector(".favorites__list");
-    if (favoritesList && favoritesList.children.length === 0) {
-      const emptyMessage = document.createElement("p");
-      emptyMessage.className = "favorites__empty";
-      emptyMessage.append(appConfig.favorites.emptyList);
-      favoritesList.append(emptyMessage);
-    }
   });
 
   return favoriteBtn;

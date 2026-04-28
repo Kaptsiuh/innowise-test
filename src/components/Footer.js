@@ -1,47 +1,35 @@
 import "../styles/components/Footer.css";
 
 import { appConfig } from "../data/config";
+import { createElement } from "../utils/domUtils";
 
 export function createFooter() {
-  const footer = document.createElement("footer");
-  footer.className = "footer";
+  const apiContainer = createApiSection();
+  const developerContainer = createDeveloperSection();
 
-  const container = document.createElement("div");
-  container.className = "footer__container container";
+  const container = createElement("div", "footer__container container", apiContainer, developerContainer);
+  const footer = createElement("footer", "footer", container);
+  return footer;
+}
 
-  const apiContainer = document.createElement("div");
-  apiContainer.className = "api";
+function createApiSection() {
+  const apiTitle = createElement("h3", "api__title", appConfig.footer.api.title);
 
-  const apiTitle = document.createElement("h3");
-  apiTitle.append(appConfig.footer.api.title);
-  apiTitle.className = "api__title";
-
-  const apiLink = document.createElement("a");
-  apiLink.append(appConfig.footer.api.link.title);
+  const apiLink = createElement("a", "api__link", appConfig.footer.api.link.title);
   apiLink.href = appConfig.footer.api.link.url;
-  apiLink.className = "api__link";
   apiLink.target = "_blank";
 
-  apiContainer.append(apiTitle, apiLink);
+  const apiContainer = createElement("div", "api", apiTitle, apiLink);
+  return apiContainer;
+}
 
-  const developerContainer = document.createElement("div");
-  developerContainer.className = "developer";
+function createDeveloperSection() {
+  const developerTitle = createElement("h3", "developer__title", appConfig.footer.developer.title);
 
-  const developerTitle = document.createElement("h3");
-  developerTitle.append(appConfig.footer.developer.title);
-  developerTitle.className = "developer__title";
-
-  const developerLink = document.createElement("a");
-  developerLink.append(appConfig.footer.developer.link.title);
+  const developerLink = createElement("a", "developer__link", appConfig.footer.developer.link.title);
   developerLink.href = appConfig.footer.developer.link.url;
-  developerLink.className = "developer__link";
   developerLink.target = "_blank";
 
-  developerContainer.append(developerTitle, developerLink);
-
-  container.append(apiContainer, developerContainer);
-
-  footer.append(container);
-
-  return footer;
+  const developerContainer = createElement("div", "developer", developerTitle, developerLink);
+  return developerContainer;
 }

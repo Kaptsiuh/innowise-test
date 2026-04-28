@@ -1,3 +1,5 @@
+import { BASE_URL } from "../utils/constants";
+
 export async function getBooks(searchQuery) {
   const params = new URLSearchParams({
     q: searchQuery || "popular",
@@ -5,8 +7,7 @@ export async function getBooks(searchQuery) {
   });
 
   try {
-    const baseUrl = import.meta.env.VITE_BASE_URL || "https://openlibrary.org";
-    const response = await fetch(`${baseUrl}/search.json?${params}`);
+    const response = await fetch(`${BASE_URL}/search.json?${params}`);
 
     if (!response.ok) {
       console.error(`http error! status: ${response.status}`);

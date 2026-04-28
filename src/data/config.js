@@ -1,3 +1,5 @@
+import { BASE_URL } from "../utils/constants";
+
 export const appConfig = {
   header: {
     logo: "The Library",
@@ -8,6 +10,8 @@ export const appConfig = {
     description: "Search millions of books, build your personal library, and never lose track of what to read next.",
     inputPlaceholder: "Search for books by title or author...",
     buttonText: "search",
+    fetchError: "Failed to load books. Please try again.",
+    notFound: "No books found!",
   },
   favorites: {
     title: "Favorites",
@@ -21,7 +25,7 @@ export const appConfig = {
       title: "Powered by",
       link: {
         title: "Open Library",
-        url: "https://openlibrary.org/",
+        url: BASE_URL,
       },
     },
     developer: {
