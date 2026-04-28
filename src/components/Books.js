@@ -57,7 +57,7 @@ export async function loadBooks(parentNode, searchQuery) {
 }
 
 export function createBooks(books) {
-  const container = document.createElement("div");
+  const container = document.createElement("ul");
   container.className = "books-container";
 
   if (!books || books.length === 0) {

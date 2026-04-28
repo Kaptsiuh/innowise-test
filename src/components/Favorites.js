@@ -1,4 +1,5 @@
 import { appConfig } from "../data/config";
+import { isFavorite, loadFavorites, removeFromFavorites } from "../services/storage";
 import "../styles/components/Favorites.css";
 import favoriteIcon from "./../assets/images/heart.svg";
 
@@ -6,6 +7,14 @@ export function createFavorites() {
   const favoritesContainer = document.createElement("aside");
   favoritesContainer.className = "favorites";
 
+  const titleWrapper = createTitleWrapper();
+  const favoritesList = createFavoritesList();
+
+  favoritesContainer.append(titleWrapper, favoritesList);
+  return favoritesContainer;
+}
+
+function createTitleWrapper() {
   const titleWrapper = document.createElement("div");
   titleWrapper.className = "favorites__title-wrapper";
 
@@ -25,8 +34,11 @@ export function createFavorites() {
   description.append(`${booksCount} ${appConfig.favorites.description}`);
 
   titleWrapper.append(favoriteImg, title, description);
+  return titleWrapper;
+}
 
-  const favoritesList = document.createElement("div");
+function createFavoritesList() {
+  const favoritesList = document.createElement("ul");
   favoritesList.className = "favorites__list";
 
   const savedFavorites = loadFavorites();
@@ -42,24 +54,37 @@ export function createFavorites() {
     });
   }
 
-  favoritesContainer.append(titleWrapper, favoritesList);
-
-  return favoritesContainer;
+  return favoritesList;
 }
 
 export function createFavoriteItem(book, updateFavoritesCallback) {
-  const item = document.createElement("a");
-  item.className = "favorites__item";
-  item.href = `${import.meta.env.VITE_BASE_URL}${book.key}`;
-  item.target = "_blank";
+  const item = document.createElement("li");
 
+  const link = document.createElement("a");
+  link.className = "favorites__item";
+  link.href = `${import.meta.env.VITE_BASE_URL}${book.key}`;
+  link.target = "_blank";
+
+  const cover = createCover(book);
+  const info = createInfo(book);
+  const favoriteBtn = createFavoriteButton(book, updateFavoritesCallback);
+
+  link.append(cover, info, favoriteBtn);
+  item.append(link);
+
+  return item;
+}
+
+function createCover(book) {
   const cover = document.createElement("img");
   cover.className = "favorites__cover";
   const coversUrl = import.meta.env.VITE_COVERS_URL || "https://covers.openlibrary.org";
-
   cover.src = `${coversUrl}/b/id/${book.coverId}.jpg`;
   cover.alt = `Cover of ${book.title}`;
+  return cover;
+}
 
+function createInfo(book) {
   const info = document.createElement("div");
   info.className = "favorites__info";
 
@@ -71,6 +96,11 @@ export function createFavoriteItem(book, updateFavoritesCallback) {
   author.className = "favorites__book-author";
   author.append(book.authorName);
 
+  info.append(title, author);
+  return info;
+}
+
+function createFavoriteButton(book, updateFavoritesCallback) {
   const favoriteBtn = document.createElement("button");
   favoriteBtn.className = "favorites__remove";
   favoriteBtn.append(appConfig.favorites.redHeart);
@@ -80,7 +110,6 @@ export function createFavoriteItem(book, updateFavoritesCallback) {
     e.stopPropagation();
 
     removeFromFavorites(book.key);
-    item.remove();
 
     if (updateFavoritesCallback) {
       updateFavoritesCallback();
@@ -97,42 +126,7 @@ export function createFavoriteItem(book, updateFavoritesCallback) {
     }
   });
 
-  info.append(title, author);
-  item.append(cover, info, favoriteBtn);
-
-  return item;
-}
-
-export function loadFavorites() {
-  const favorites = localStorage.getItem("favoriteBooks");
-  return favorites ? JSON.parse(favorites) : [];
-}
-
-export function saveFavorite(book) {
-  const favorites = loadFavorites();
-
-  if (!favorites.some((fav) => fav.key === book.key)) {
-    favorites.push({
-      title: book.title,
-      authorName: book.authorName,
-      coverId: book.coverId,
-      key: book.key,
-    });
-    localStorage.setItem("favoriteBooks", JSON.stringify(favorites));
-    return true;
-  }
-  return false;
-}
-
-export function removeFromFavorites(key) {
-  const favorites = loadFavorites();
-  const updatedFavorites = favorites.filter((book) => book.key !== key);
-  localStorage.setItem("favoriteBooks", JSON.stringify(updatedFavorites));
-}
-
-export function isFavorite(key) {
-  const favorites = loadFavorites();
-  return favorites.some((book) => book.key === key);
+  return favoriteBtn;
 }
 
 function updateFavorites() {
@@ -151,8 +145,7 @@ function updateBookCardHeart(bookKey) {
     if (link && link.href.includes(bookKey)) {
       const favoriteBtn = card.querySelector(".book-card__favorite");
       if (favoriteBtn) {
-        const isFav = isFavorite(bookKey);
-        favoriteBtn.textContent = isFav ? appConfig.favorites.redHeart : appConfig.favorites.whiteHeart;
+        favoriteBtn.textContent = isFavorite(bookKey) ? appConfig.favorites.redHeart : appConfig.favorites.whiteHeart;
       }
     }
   });
