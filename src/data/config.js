@@ -4,6 +4,7 @@ export const appConfig = {
   header: {
     logo: "The Library",
     description: "Discover your next favorite book",
+    themeText: "Theme:",
   },
   searchSection: {
     title: "Discover Your Next Great Read",

@@ -1,17 +1,17 @@
 import { createFooter } from "./components/Footer";
 import { createHeader } from "./components/Header";
 import { createMain } from "./components/Main";
+import { initTheme } from "./services/theme";
 import "./styles/global.css";
+
+initTheme();
 
 function initApp() {
   const header = createHeader();
-  document.body.append(header);
-
   const main = createMain();
-  document.body.append(main);
-
   const footer = createFooter();
-  document.body.append(footer);
+
+  document.body.append(header, main, footer);
 }
 
 document.addEventListener("DOMContentLoaded", initApp);

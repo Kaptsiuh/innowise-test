@@ -19,6 +19,19 @@
   --favorite: #eaf0ed;
 }
 
+.dark-theme {
+  --white: #1a1a1a;
+  --black: #e0e0e0;
+
+  --title: #e0e0e0;
+  --text: #a0a0a0;
+  --border: #333333;
+
+  --background: #121212;
+  --card: #1e1e1e;
+  --shadow: #383837;
+}
+
 * {
   margin: 0;
   padding: 0;

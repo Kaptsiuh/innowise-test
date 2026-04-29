@@ -88,6 +88,10 @@
   }
 }
 
+.dark-theme .search__button:hover {
+  background-color: var(--black);
+}
+
 @media (max-width: 480px) {
   .search__form {
     flex-direction: column;

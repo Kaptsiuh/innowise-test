@@ -8,8 +8,13 @@
 
 .header__container {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-wrapper {
+  display: flex;
   gap: 1rem;
+  align-items: center;
 }
 
 .logo__title {
@@ -39,4 +44,57 @@
 .logo-link:hover {
   transform: scale(1.05);
   opacity: 0.9;
+}
+
+.theme-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.theme-text {
+  color: var(--black);
+}
+
+.theme-checkbox {
+  display: none;
+}
+
+.theme-label {
+  position: relative;
+  width: 50px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.theme-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--green);
+  border-radius: 30px;
+}
+
+.theme-slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--white);
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+.theme-checkbox:checked + .theme-label .theme-slider:before {
+  transform: translateX(23px);
+}
+
+@media (max-width: 480px) {
+  .theme-text {
+    display: none;
+  }
 }
