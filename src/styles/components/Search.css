@@ -72,3 +72,24 @@
   background-color: var(--brown);
   box-shadow: 5px 5px 5px var(--shadow);
 }
+
+@media (max-width: 768px) {
+  .search__title {
+    font-size: 1.5rem;
+  }
+
+  .search__description {
+    font-size: 0.8rem;
+  }
+
+  .search__button {
+    width: 150px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .search__form {
+    flex-direction: column;
+  }
+}

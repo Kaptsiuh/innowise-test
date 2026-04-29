@@ -100,3 +100,9 @@
   font-size: 0.7rem;
   padding: 2rem;
 }
+
+@media (max-width: 480px) {
+  .favorites {
+    width: 100%;
+  }
+}
