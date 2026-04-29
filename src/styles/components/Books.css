@@ -1,17 +1,22 @@
 .books {
   padding: 2rem 0;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
 }
 
 .books-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 1rem;
+  flex: 1;
 }
 
 .loading {
   text-align: center;
   padding: 3rem;
   position: relative;
+  grid-column: 1 / -1;
 }
 
 .loading::after {
@@ -37,15 +42,12 @@
   text-align: center;
   padding: 3rem;
   color: var(--red);
+  grid-column: 1 / -1;
 }
 
 .books__no-results {
   text-align: center;
   padding: 3rem;
   color: var(--text);
-}
-
-.books-grid-wrapper {
-  display: flex;
-  gap: 1rem;
+  grid-column: 1 / -1;
 }

@@ -16,10 +16,14 @@ export async function loadBooks(parentNode, searchQuery) {
 
   if (!booksContainer) {
     booksContainer = createElement("div", "books");
+    const booksList = createElement("ul", "books-container");
+    const favorite = createFavorites();
+    booksContainer.append(booksList, favorite);
     parentNode.append(booksContainer);
   }
 
-  showLoader(booksContainer);
+  const booksListContainer = booksContainer.querySelector(".books-container");
+  showLoader(booksListContainer);
 
   try {
     let books = await getBooks(searchQuery);
@@ -30,29 +34,26 @@ export async function loadBooks(parentNode, searchQuery) {
 
     const transformedBooks = books.map(transformBook);
 
-    const newBook = createBooks(transformedBooks);
-    const favorite = createFavorites();
-    const booksGridWrapper = createElement("div", "books-grid-wrapper", newBook, favorite);
-
-    booksContainer.innerHTML = "";
-    booksContainer.append(booksGridWrapper);
+    const newBooks = createBooks(transformedBooks);
+    booksListContainer.innerHTML = "";
+    booksListContainer.append(newBooks);
   } catch (error) {
     console.error(`Error loading books: ${error}`);
-    showMessage(booksContainer, "error-message", appConfig.searchSection.fetchError);
+    showMessage(booksListContainer, "error-message", appConfig.searchSection.fetchError);
   }
 }
 
 export function createBooks(books) {
-  const container = createElement("ul", "books-container");
+  const fragment = document.createDocumentFragment();
 
   if (!books.length) {
-    showMessage(container, "books__no-results", appConfig.searchSection.notFound);
-    return container;
+    showMessage(fragment, "books__no-results", appConfig.searchSection.notFound);
+    return fragment;
   }
 
   books.forEach((book) => {
-    container.append(createBookCard(book));
+    fragment.append(createBookCard(book));
   });
 
-  return container;
+  return fragment;
 }

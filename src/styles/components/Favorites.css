@@ -8,7 +8,7 @@
   max-height: calc(100vh);
   overflow-y: auto;
   scrollbar-width: none;
-  min-width: 220px;
+  width: 240px;
 }
 
 .favorites__title-wrapper {
