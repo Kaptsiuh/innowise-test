@@ -12,6 +12,7 @@ export const appConfig = {
     buttonText: "search",
     fetchError: "Failed to load books. Please try again.",
     notFound: "No books found!",
+    emptyQuery: "Please enter a search query",
   },
   favorites: {
     title: "Favorites",

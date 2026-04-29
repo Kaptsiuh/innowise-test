@@ -2,7 +2,7 @@ import "../styles/components/Search.css";
 import { appConfig } from "../data/config";
 import searchIcon from "./../assets/images/search.svg";
 import { loadBooks } from "./Books";
-import { createElement } from "../utils/domUtils";
+import { createElement, showMessage } from "../utils/domUtils";
 
 export function createSearch() {
   const title = createElement("h2", "search__title", appConfig.searchSection.title);
@@ -43,7 +43,27 @@ function createForm() {
 async function handleSearch(searchQuery) {
   const mainElement = document.querySelector(".main");
 
-  if (!mainElement) return;
+  if (!mainElement) {
+    console.error("main element not found");
+    return;
+  }
+
+  if (!searchQuery) {
+    const booksSection = mainElement.querySelector(".books");
+    if (!booksSection) {
+      console.error("books section not found");
+      return;
+    }
+
+    const booksContainer = booksSection.querySelector(".books-container");
+    if (!booksContainer) {
+      console.error("books container not found");
+      return;
+    }
+
+    showMessage(booksContainer, "error-message", appConfig.searchSection.emptyQuery);
+    return;
+  }
 
   await loadBooks(mainElement, searchQuery);
 }
