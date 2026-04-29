@@ -3,6 +3,7 @@ import { appConfig } from "../data/config";
 import searchIcon from "./../assets/images/search.svg";
 import { loadBooks } from "./Books";
 import { createElement, showMessage } from "../utils/domUtils";
+import { debounce } from "../utils/debounce";
 
 export function createSearch() {
   const title = createElement("h2", "search__title", appConfig.searchSection.title);
@@ -21,10 +22,20 @@ function createForm() {
   input.id = "search-input";
   input.type = "text";
   input.placeholder = appConfig.searchSection.inputPlaceholder;
-  input.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
+
+  const debouncedSearch = debounce((query, signal) => {
+    handleSearch(query, signal);
+  }, 1000);
+
+  input.addEventListener("input", (e) => {
+    debouncedSearch(e.target.value.trim());
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      debouncedSearch.cancel();
       handleSearch(input.value.trim());
-      input.value = "";
     }
   });
 
@@ -32,15 +43,15 @@ function createForm() {
 
   const button = createElement("button", "search__button", appConfig.searchSection.buttonText);
   button.addEventListener("click", () => {
+    debouncedSearch.cancel();
     handleSearch(input.value.trim());
-    input.value = "";
   });
 
   const form = createElement("div", "search__form", inputWrapper, button);
   return form;
 }
 
-async function handleSearch(searchQuery) {
+async function handleSearch(searchQuery, signal = null) {
   const mainElement = document.querySelector(".main");
 
   if (!mainElement) {
@@ -65,5 +76,5 @@ async function handleSearch(searchQuery) {
     return;
   }
 
-  await loadBooks(mainElement, searchQuery);
+  await loadBooks(mainElement, searchQuery, signal);
 }

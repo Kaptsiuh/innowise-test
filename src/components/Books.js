@@ -6,7 +6,7 @@ import { createElement, showMessage, showLoader } from "../utils/domUtils";
 import { appConfig } from "../data/config";
 import { transformBook } from "../utils/transformBook";
 
-export async function loadBooks(parentNode, searchQuery) {
+export async function loadBooks(parentNode, searchQuery, signal = null) {
   if (!parentNode) {
     console.error("parentNode is required for loadBooks");
     return;
@@ -26,7 +26,9 @@ export async function loadBooks(parentNode, searchQuery) {
   showLoader(booksListContainer);
 
   try {
-    let books = await getBooks(searchQuery);
+    let books = await getBooks(searchQuery, signal);
+
+    if (signal?.aborted) return;
 
     if (!Array.isArray(books)) {
       books = [];
