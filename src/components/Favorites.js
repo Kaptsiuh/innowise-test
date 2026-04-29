@@ -4,6 +4,7 @@ import "../styles/components/Favorites.css";
 import { createElement } from "../utils/domUtils";
 import { getBookUrl, getCoverUrl } from "../utils/urlUtils";
 import favoriteIcon from "./../assets/images/heart.svg";
+import noCover from "./../assets/images/cover.svg";
 
 export function createFavorites() {
   const titleWrapper = createTitleWrapper();
@@ -61,7 +62,8 @@ export function createFavoriteItem(book, updateFavoritesCallback) {
 
 function createCover(book) {
   const cover = createElement("img", "favorites__cover");
-  cover.src = getCoverUrl(book.coverId);
+  const coverUrl = getCoverUrl(book.coverId);
+  cover.src = coverUrl ? coverUrl : noCover;
   cover.alt = `Cover of ${book.title}`;
   return cover;
 }

@@ -1,7 +1,9 @@
 import { BASE_URL, COVERS_URL } from "./constants";
 
 export function getCoverUrl(coverId) {
-  // coverId may come with undefined (need to make a plug)
+  if (!coverId) {
+    return null;
+  }
   return `${COVERS_URL}/b/id/${coverId}.jpg`;
 }
 

@@ -4,6 +4,7 @@ import "../styles/components/Book.css";
 import { createElement } from "../utils/domUtils";
 import { getBookUrl, getCoverUrl } from "../utils/urlUtils";
 import { createFavorites } from "./Favorites";
+import noCover from "./../assets/images/cover.svg";
 
 export function createBookCard(book) {
   const link = createLink(book);
@@ -24,7 +25,8 @@ function createLink(book) {
 
 function createCover(book) {
   const bookCover = createElement("img", "book-card__cover");
-  bookCover.src = getCoverUrl(book.coverId);
+  const coverUrl = getCoverUrl(book.coverId);
+  bookCover.src = coverUrl ? coverUrl : noCover;
   bookCover.alt = `Cover of ${book.title}`;
   return bookCover;
 }
