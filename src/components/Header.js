@@ -1,6 +1,6 @@
 import "../styles/components/Header.css";
 import { appConfig } from "../data/config";
-import bookIcon from "./../assets/images/book.svg";
+import bookIcon from "./../assets/book.svg";
 import { createElement } from "../utils/domUtils";
 import { loadTheme } from "../services/theme";
 import { DARK_THEME, THEME_KEY } from "../utils/constants";

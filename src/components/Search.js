@@ -1,6 +1,6 @@
 import "../styles/components/Search.css";
 import { appConfig } from "../data/config";
-import searchIcon from "./../assets/images/search.svg";
+import searchIcon from "./../assets/search.svg";
 import { loadBooks } from "./Books";
 import { createElement, showMessage } from "../utils/domUtils";
 import { debounce } from "../utils/debounce";

@@ -3,8 +3,8 @@ import { isFavorite, loadFavorites, removeFromFavorites } from "../services/stor
 import "../styles/components/Favorites.css";
 import { createElement } from "../utils/domUtils";
 import { getBookUrl, getCoverUrl } from "../utils/urlUtils";
-import favoriteIcon from "./../assets/images/heart.svg";
-import noCover from "./../assets/images/cover.svg";
+import favoriteIcon from "./../assets/heart.svg";
+import noCover from "./../assets/cover.svg";
 
 export function createFavorites() {
   const titleWrapper = createTitleWrapper();

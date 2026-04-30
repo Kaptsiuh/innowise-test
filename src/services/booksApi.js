@@ -2,13 +2,14 @@ import { BASE_URL } from "../utils/constants";
 
 const cache = new Map();
 
-export async function getBooks(searchQuery, signal = null) {
+export async function getBooks(searchQuery, signal = null, offset = 0) {
   const params = new URLSearchParams({
     q: searchQuery || "popular",
     limit: 20,
+    offset,
   });
 
-  const cacheKey = searchQuery || "popular";
+  const cacheKey = `${searchQuery || "popular"}_offset_${offset}`;
 
   if (cache.has(cacheKey)) {
     console.log("Returning cached data for", cacheKey);

@@ -5,8 +5,9 @@ import { createFavorites } from "./Favorites";
 import { createElement, showMessage, showLoader } from "../utils/domUtils";
 import { appConfig } from "../data/config";
 import { transformBook } from "../utils/transformBook";
+import { onScroll, pagination, resetPagination } from "../services/pagination";
 
-export async function loadBooks(parentNode, searchQuery, signal = null) {
+export async function loadBooks(parentNode, searchQuery, signal = null, isLoadMore = false) {
   if (!parentNode) {
     console.error("parentNode is required for loadBooks");
     return;
@@ -23,10 +24,16 @@ export async function loadBooks(parentNode, searchQuery, signal = null) {
   }
 
   const booksListContainer = booksContainer.querySelector(".books-container");
-  showLoader(booksListContainer);
+
+  if (!isLoadMore) {
+    resetPagination();
+    showLoader(booksListContainer);
+  }
+
+  pagination.isLoading = true;
 
   try {
-    let books = await getBooks(searchQuery, signal);
+    let books = await getBooks(searchQuery, signal, pagination.offset);
 
     if (signal?.aborted) return;
 
@@ -36,12 +43,29 @@ export async function loadBooks(parentNode, searchQuery, signal = null) {
 
     const transformedBooks = books.map(transformBook);
 
-    const newBooks = createBooks(transformedBooks);
-    booksListContainer.innerHTML = "";
-    booksListContainer.append(newBooks);
+    if (!isLoadMore) {
+      const newBooks = createBooks(transformedBooks);
+      booksListContainer.innerHTML = "";
+      booksListContainer.append(newBooks);
+    } else {
+      transformedBooks.forEach((book) => {
+        booksListContainer.append(createBookCard(book));
+      });
+    }
+
+    pagination.offset += 20;
+    pagination.hasMore = books.length === 20;
+
+    if (!isLoadMore && pagination.hasMore) {
+      onScroll(() => loadBooks(parentNode, searchQuery, null, true));
+    }
   } catch (error) {
-    console.error(`Error loading books: ${error}`);
-    showMessage(booksListContainer, "error-message", appConfig.searchSection.fetchError);
+    console.error("Error loading books:", error);
+    if (!isLoadMore) {
+      showMessage(booksListContainer, "error-message", appConfig.searchSection.fetchError);
+    }
+  } finally {
+    pagination.isLoading = false;
   }
 }
 
